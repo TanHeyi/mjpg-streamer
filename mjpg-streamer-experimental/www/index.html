@@ -1,54 +1,214 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-  <head>
-    <title>MJPG-streamer</title>
-    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <!--[if IE 6]>
-    <link rel="stylesheet" href="fix.css" type="text/css" />
-    <![endif]-->
-  </head>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="./favicon.ico">
+    <title>谈何易i的Home</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        /* * Globals */
+        /* Links */
+        a, a:focus, a:hover {
+            color: #fff;
+        }
 
-  <body>
-    <div id="sidebar">
-      <h1>MJPG-Streamer Demo Pages</h1>
-      <h2>a resource-friendly streaming application</h2>
+        /* Custom default button */
+        .btn-secondary, .btn-secondary:hover, .btn-secondary:focus {
+            color: #333;
+            text-shadow: none; /* Prevent inheritance from `body` */
+            background-color: #fff;
+            border: .05rem solid #fff;
+        }
 
-      <div id="menu">
-        <a class="active" href="index.html">Home</a>
-        <a href="static.html">Static</a>
-        <a href="stream.html">Stream</a>
-        <a href="java.html">Java</a>
-        <a href="javascript.html">Javascript</a>
-        <a href="videolan.html">VideoLAN</a>
-        <a target="_blank" onClick="window.open(this.href, '_blank'); return false;" href="control.htm">Control</a>
-      </div>
+        /* * Base structure */
+        html, body {
+            height: 100%;
+            background-color: #333;
+        }
 
-      <h3>Version info:</h3>
-      <p>v0.1 (Okt 22, 2007)</p>
-    </div>
+        body {
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+        }
 
-    <div id="content">
-      <h1>About</h1>
-      <h2>Details about the M-JPEG streamer</h2>
+        /* Extra markup and styles for table-esque vertical and horizontal centering */
+        .site-wrapper {
+            display: table;
+            width: 100%;
+            height: 100%; /* For at least Firefox */
+            min-height: 100%;
+            box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+        }
 
-      <h3>Congratulations</h3>
-      <p>You sucessfully managed to install this streaming webserver. If you can see this page, you can also access the stream of JPGs, which can originate from your webcam for example. This installation consists of these example pages and you may customize the look and content.</p>
+        .site-wrapper-inner {
+            display: table-cell;
+            vertical-align: top;
+        }
 
-      <img src="example.jpg" width="512" height="160" alt="just an image" />
-      <p>The reason for developing this software was the need of a simple and ressource friendly streaming application for Linux-UVC compatible webcams. The predecessor <i>uvc-streamer</i> is working well, but i wanted to implement a few more ideas. For instance, plugins can be used to process the images. One input plugin copies images to a global variable, multiple output plugins can access those images. For example this webpage is served by the <i>output_http.so</i> plugin.</p>
+        .cover-container {
+            margin-right: auto;
+            margin-left: auto;
+        }
 
-      <a href="static.html"><img src="./?action=snapshot" width="170" height="128" alt="static image example" /></a>
-      <p>The image displayed here was grabbed by the input plugin. The HTTP request contains the GET parameters <i>action=snapshot</i>. This requests one single picture from the image-input. To display another example, just click on the picture.</p>
+        /* Padding for spacing */
+        .inner {
+            padding: 2rem;
+        }
 
-      <h3>About the examples</h3>
-      <p>To view the stream with any browser you may try the <i>javascript</i> or <i>java</i> subpages. Firefox is able to display the M-JPEG-stream directly.</p>
+        /* * Header */
+        .masthead {
+            margin-bottom: 2rem;
+        }
 
-      <h3>About this server</h3>
-      <p>This server is running a software written for the MJPG-streamer project. The MJPG-streamer developers can not be made responsible for installations of this software.</p>
+        .masthead-brand {
+            margin-bottom: 0;
+        }
 
-      <p>&copy; The <a href="http://mjpg-streamer.sf.net">MJPG-streamer team</a> | Design by <a href="http://andreasviklund.com">Andreas Viklund</a></p>
-    </div>
-  </body>
+        .nav-masthead .nav-link {
+            padding: .25rem 0;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .5);
+            background-color: transparent;
+            border-bottom: .25rem solid transparent;
+        }
+
+        .nav-masthead .nav-link:hover, .nav-masthead .nav-link:focus {
+            border-bottom-color: rgba(255, 255, 255, .25);
+        }
+
+        .nav-masthead .nav-link + .nav-link {
+            margin-left: 1rem;
+        }
+
+        .nav-masthead .active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        @media (min-width: 48em) {
+            .masthead-brand {
+                float: left;
+            }
+
+            .nav-masthead {
+                float: right;
+            }
+        }
+
+        /* * Cover */
+        .cover {
+            padding: 0 1.5rem;
+        }
+
+        .cover .btn-lg {
+            padding: .75rem 1.25rem;
+            font-weight: 700;
+        }
+
+        /* * Footer */
+        .mastfoot {
+            color: rgba(255, 255, 255, .5);
+        }
+
+        /* * Affix and center */
+        @media (min-width: 40em) {
+            /* Pull out the header and footer */
+            .masthead {
+                position: fixed;
+                top: 0;
+            }
+
+            .mastfoot {
+                position: fixed;
+                bottom: 0;
+            }
+
+            /* Start the vertical centering */
+            .site-wrapper-inner {
+                vertical-align: middle;
+            }
+
+            /* Handle the widths */
+            .masthead, .mastfoot, .cover-container {
+                width: 100%; /* Must be percentage or pixels for horizontal alignment */
+            }
+        }
+
+        @media (min-width: 62em) {
+            .masthead, .mastfoot, .cover-container {
+                width: 42rem;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+
+        var phi = 0, flipped = 0, mirrored = 0;
+
+        function setXformClass() {
+            $('.xform').each(function (idx, el) {
+                el.className = "xform x" + (flipped ? "-flipped" : "") + (mirrored ? "-mirrored" : "") + "-rotated-" + phi;
+            });
+        }
+
+        $(document).ready(function () {
+            // set rotation angle phi and toggle rotate class
+            $('#rotate').click(function () {
+                phi = (phi + 90) % 360;
+                setXformClass();
+                if (phi % 180) {
+                    $('.xform-p').addClass('rotated');
+                } else {
+                    $('.xform-p').removeClass('rotated');
+                }
+            });
+            // toggle mirror class component
+            $('#mirror').click(function () {
+                mirrored = !mirrored;
+                setXformClass();
+            });
+            // toggle flip class component
+            $('#flip').click(function () {
+                flipped = !flipped;
+                setXformClass();
+            });
+        });
+    </script>
+</head>
+
+
+<body>
+<div class="container">
+    <div class="row">
+                <p id="xform">
+                    <button id="rotate">
+                        <div class="btnface"></div>
+                    </button>
+                    <button id="mirror">
+                        <div class="btnface"></div>
+                    </button>
+                    <button id="flip">
+                        <div class="btnface"></div>
+                    </button>
+                </p>
+                <p class="xform-p"></p>
+                <p id="streamwrap" class="xform-p" style="text-align: center">
+                    <img id="streamimage" class="xform" src="./?action=stream"/>
+                </p>
+            </div>
+    <footer class="footer navbar-fixed-bottom ">
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">© 2020 Design by <a href="https://www.tanheyii.com">tanheyii</a> </p>
+        <p>Power by <a href="http://mjpg-streamer.sf.net">MJPG-streamer team</a> @ <a href="http://andreasviklund.com">Andreas Viklund</a></p>
+      </footer>
+</footer>
+</div>
+
+
+<!-- Bootstrap 核心 JavaScript -->
+<script src="./jquery.js"></script>
+<script src="./bootstrap.min.js"></script>
+</body>
 </html>
